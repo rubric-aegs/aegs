@@ -16,7 +16,7 @@ class IdeasEvaluator:
         essay_vectors = np.array([self.model[word] for word in essay_words])
         theme_vectors = np.array([self.model[word] for word in theme_words])
         
-        # Ensure averaging doesn't cause issues
+        # Get propmpt and essay average vectors
         essay_avg_vector = np.mean(essay_vectors, axis=0) if essay_vectors.size else np.zeros(self.model.vector_size)
         theme_avg_vector = np.mean(theme_vectors, axis=0) if theme_vectors.size else np.zeros(self.model.vector_size)
         

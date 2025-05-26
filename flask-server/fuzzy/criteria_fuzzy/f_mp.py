@@ -6,7 +6,6 @@ from fuzzy.fuzzy import FuzzyLogicEvaluator
 class MechanicsFuzzyEvaluator(FuzzyLogicEvaluator):
 
     def __init__(self):
-        """Initialize the grammar fuzzy logic system."""
         super().__init__()
         self.control_system = self._create_control_system()
     

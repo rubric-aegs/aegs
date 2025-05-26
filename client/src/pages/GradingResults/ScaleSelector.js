@@ -13,8 +13,6 @@ const ScaleSelector = ({ value, onChange }) => {
       >
         <option value="1">5-point Scale</option>
         <option value="2">20-point Scale</option>
-        <option value="3">Letter Grade (A-E)</option>
-        <option value="4">Letter Grade (+/-)</option>
         <option value="5">100-point Scale</option>
         <option value="6">50-point Scale</option>
       </select>

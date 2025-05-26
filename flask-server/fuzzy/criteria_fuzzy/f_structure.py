@@ -6,7 +6,6 @@ from fuzzy.fuzzy import FuzzyLogicEvaluator
 class OrgFuzzyEvaluator(FuzzyLogicEvaluator):
     
     def __init__(self):
-        """Initialize the evidence fuzzy logic system."""
         super().__init__()
         self.control_system = self._create_control_system()
     
