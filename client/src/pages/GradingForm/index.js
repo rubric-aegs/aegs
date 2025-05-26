@@ -193,6 +193,22 @@ function GradingForm() {
         errors.push('Please upload a file.');
       }
     }
+
+    // New validation for weights depending on rubric:
+    if (selectedRubric === 1 || selectedRubric === 2 || selectedRubric === 3) {
+      // Rubric A, B, or C: ALL criteria must have weights > 0
+      const criteria = RUBRICS[selectedRubric];
+      const missingWeights = criteria.filter(c => !weights[c.id] || parseInt(weights[c.id], 10) <= 0);
+      if (missingWeights.length > 0) {
+        errors.push('All criteria must have input weights for Rubric A, B, or C.');
+      }
+    } else if (selectedRubric === 4) {
+      // Custom rubric: at least 3 criteria must have weights > 0
+      const positiveWeightsCount = Object.values(weights).filter(w => parseInt(w, 10) > 0).length;
+      if (positiveWeightsCount < 3) {
+        errors.push('At least 3 criteria must have input weights in the custom rubric.');
+      }
+    }
     
     if (errors.length > 0) {
       setErrorMessage(errors);
@@ -212,8 +228,8 @@ function GradingForm() {
     
     // Check if total is exactly 100 (except for custom rubric where we allow some zeros)
     if (totalWeight !== 100) {
-      // For custom rubric (option 4), we'll allow proceeding if criteria with weights sum to 100
       if (selectedRubric === 4) {
+        // For custom rubric, weights > 0 must sum to 100
         const nonZeroWeights = Object.values(weights).filter(w => w > 0);
         const nonZeroTotal = nonZeroWeights.reduce((sum, w) => sum + w, 0);
         if (nonZeroTotal !== 100) {
@@ -221,12 +237,13 @@ function GradingForm() {
           return;
         }
       } else {
-        // For standard rubrics, all weights must be positive and sum to 100
+        // For Rubrics A/B/C, total must be 100
         setWeightWarningVisible(true);
         return;
       }
     }
     
+    // Validate inputs including new weight rules
     if (validateInputs()) {
       setLoadingVisible(true);
       

@@ -460,6 +460,12 @@
   cursor: not-allowed;
 }
 
+.desc {
+  color: white;
+  font-style: bold;
+  margin-bottom: 2vh;
+}
+
 /* Action Buttons */
 .action-buttons {
   display: flex;

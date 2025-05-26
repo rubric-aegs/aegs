@@ -14,6 +14,7 @@ const CriteriaWeights = ({
   const totalWeight = calculateTotalWeight();
   const [isEditing, setIsEditing] = useState(false);
   const [editedCriteria, setEditedCriteria] = useState({});
+  const criteria = selectedRubric === 4 ? rubrics.custom || [] : rubrics[selectedRubric];
 
   // Initialize editable names for custom rubric (selectedRubric === 4)
   useEffect(() => {
@@ -93,6 +94,17 @@ const CriteriaWeights = ({
         </tbody>
       </table>
 
+      {(selectedRubric === 1 || selectedRubric === 2 || selectedRubric === 3) && (
+        <p className="desc">
+          * All criteria must have input weights.
+        </p>
+      )}
+
+      {selectedRubric === 4 && (
+        <p className="desc">
+          * At least 3 criteria must have input weights.
+        </p>
+      )}
 
       <div className="scale" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
         <label htmlFor="scale_choice" style={{ color: 'white', fontWeight: 'bold' }}>Select Scoring Scale:</label>
