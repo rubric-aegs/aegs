@@ -1,6 +1,6 @@
 #app.py
 
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, send_from_directory
 import pandas as pd
 import numpy as np
 import skfuzzy as fuzz
@@ -20,7 +20,18 @@ from main_server import EssayEvaluationSystem
 from visualization.fuzzy_graphs import plot_membership_functions
 from preprocessor.csv_preprocessor import InputProcessor
 
-app = Flask(__name__)
+# Adjust path if needed depending on where 'client/build' is
+app = Flask(__name__, static_folder="../client/build", static_url_path="/aegs")
+
+# Route for React frontend
+@app.route('/aegs/home')
+def serve_react():
+    return send_from_directory(app.static_folder, "index.html")
+
+# Optional: Serve other static assets
+@app.route('/aegs/static/<path:path>')
+def static_proxy(path):
+    return send_from_directory(os.path.join(app.static_folder, 'static'), path)
 
 # Configure file upload settings
 UPLOAD_FOLDER = tempfile.gettempdir()

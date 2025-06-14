@@ -15,7 +15,7 @@ export default function LandingPage() {
       <div className="flex flex-col lg:flex-row items-center px-8 py-20 max-w-6xl mx-auto">
       <div className="lg:w-1/2 mb-10 lg:mb-0 flex justify-center">
       <img 
-        src="/img/illus.png"
+        src={process.env.PUBLIC_URL + "/img/illus.png"}
         alt="Illustration" 
         className="illus max-w-full h-auto" 
       />

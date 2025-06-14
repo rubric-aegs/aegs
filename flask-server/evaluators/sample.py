@@ -1,6 +1,6 @@
 from preprocessor.word2vec_singleton import get_word2vec_model
 
-# Load the model using your singleton class
+# Load the model using singleton class
 model = get_word2vec_model()
 
 # Essay and prompt input
@@ -8,7 +8,7 @@ essay_text = """I like flowers because they are pretty."""
 
 prompt_text = """Why do you like flowers?"""
 
-# Tokenize and clean
+# clean
 def tokenize(text):
     return [w.strip(".,!?\"'()").lower() for w in text.split()]
 

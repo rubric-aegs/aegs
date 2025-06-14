@@ -49,6 +49,7 @@ class EvidenceEvaluator:
         
         # Compute main claim vector
         claim_avg_vector = np.mean(claim_vectors, axis=0)
+        
         # Compute similarity with each support sentence
         similarities = []
         for sentence in support_sentences:

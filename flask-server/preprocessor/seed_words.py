@@ -1,5 +1,3 @@
-# core/nlp/seed_words.py
-
 seed_words_evidence = [
     "because", "since", "therefore", "thus", "hence", "consequently",
     "as a result", "due to", "for this reason", "evidence", "support",
