@@ -20,19 +20,42 @@ from main_server import EssayEvaluationSystem
 from visualization.fuzzy_graphs import plot_membership_functions
 from preprocessor.csv_preprocessor import InputProcessor
 
-# Adjust path if needed depending on where 'client/build' is
-app = Flask(__name__, static_folder="../client/build", static_url_path="/aegs")
+# Get the directory where app.py is located (flask-server folder)
+basedir = os.path.abspath(os.path.dirname(__file__))
 
-# Route for React frontend
+# Path to React build folder: flask-server/../client/build
+build_folder = os.path.join(basedir, "..", "client", "build")
+
+# Configure Flask app
+app = Flask(__name__)
+
 @app.route('/aegs/home')
+@app.route('/aegs/')
+@app.route('/aegs')
 def serve_react():
-    return send_from_directory(app.static_folder, "index.html")
+    """Serve the main React application"""
+    return send_file(os.path.join(build_folder, "index.html"))
 
-# Optional: Serve other static assets
-@app.route('/aegs/static/<path:path>')
-def static_proxy(path):
-    return send_from_directory(os.path.join(app.static_folder, 'static'), path)
+@app.route('/aegs/static/<path:filename>')
+def serve_static_assets(filename):
+    """Serve static assets (CSS, JS) from React build"""
+    return send_file(os.path.join(build_folder, "static", filename))
 
+@app.route('/aegs/<path:filename>')
+def serve_react_assets(filename):
+    """Serve React assets like images, favicon, manifest"""
+    file_path = os.path.join(build_folder, filename)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return send_file(file_path)
+    else:
+        # If asset doesn't exist, serve the React app (for client-side routing)
+        return send_file(os.path.join(build_folder, "index.html"))
+
+# Handle images without /aegs prefix (like /img/illus.png)
+@app.route('/img/<path:filename>')
+def serve_images(filename):
+    """Handle image requests without /aegs prefix"""
+    
 # Configure file upload settings
 UPLOAD_FOLDER = tempfile.gettempdir()
 ALLOWED_EXTENSIONS = {'csv', 'pdf', 'docx', 'txt'}  
@@ -498,4 +521,4 @@ def static_files(path):
     return send_file(f'../build/{path}')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5000, host='127.0.0.1')
